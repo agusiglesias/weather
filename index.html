@@ -32,14 +32,19 @@
                     const proxy = "https://cors-anywhere.herokuapp.com/";
                     const api = '${proxy}https://api.darksky.net/forecast/406b975f02d2470e0ffb263d9d4a50af/${lat},${long}';
                     
-                    fetch(api) 
-                    .then(response => {
-                    return response.json();
+                   fetch(api)
+                        .then(response => {
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log(data);
+                            const {temperature, summary}= data.currently;
+                            temperatureDegree.textContent = temperature;
+                            temperatureDescription.textContent= summary;
+                            temperatureTimezone.textContent = data.timezone;
+                        })
                 })
-                .then(data => console.log(data) )
-                })    
-            }
-
+            };
         });
     </script>
 </body>
