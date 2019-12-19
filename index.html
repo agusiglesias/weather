@@ -18,14 +18,18 @@
        </div>
        <div class="temp-description">It's freaking hot</div>
    </div>
+    
+     <script src="skycons.js"></script>
     <script>
-        
         window.addEventListener("load", ()=> {
             let long;
             let lat;
             let temperatureDescription = document.querySelector(".temp-description");
             let temperatureDegree = document.querySelector(".temp-degree");
             let temperatureTimezone = document.querySelector(".location-timezone");
+            let temperatureSection = document.querySelector(".degree-section");
+            const temperatureSpan = document.querySelector(".degree-section span");
+            
             
             if(navigator.geolocation){
                 navigator.geolocation.getCurrentPosition(position =>{
@@ -40,15 +44,37 @@
                             return response.json();
                         })
                         .then(data => {
-                            console.log(data);
+                            //console.log(data);
                             const {temperature, summary}= data.currently;
                             temperatureDegree.textContent = temperature;
                             temperatureDescription.textContent= summary;
                             temperatureTimezone.textContent = data.timezone;
-                        })
-                })
-            };
-        });
+                       
+                            let celsius = (temperature - 32)*(5 /9);
+                            setIcons(icon, document.querySelector(".icon"));
+                       
+                       temperatureSection.addEventListener('click', () =>{
+                                if(temperatureSpan.textContent === "F"){
+                                    temperatureSpan.textContent = "C";
+                                    temperatureDegree.textContent = Math.floor(celsius);
+                                }else {
+                                    temperatureSpan.textContent = "F";
+                                    temperatureDegree.textContent = temperature;
+                                }
+                                });
+                            });
+                        });
+                      };
+
+                    function setIcons(icon, iconId) {
+                        const skycons = new Skycons({
+                            color: "white"
+                        });
+                        const currentIcon = icon.replace(/-/g, "_").toUpperCase();
+                        skycons.play();
+                        return skycons.set(iconId, Skycons[currentIcon]);
+                    }
+                });
     </script>
 </body>
 </html>
