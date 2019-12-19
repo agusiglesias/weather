@@ -23,6 +23,9 @@
         window.addEventListener("load", ()=> {
             let long;
             let lat;
+            let temperatureDescription = document.querySelector(".temp-description");
+            let temperatureDegree = document.querySelector(".temp-degree");
+            let temperatureTimezone = document.querySelector(".location-timezone");
             
             if(navigator.geolocation){
                 navigator.geolocation.getCurrentPosition(position =>{
@@ -30,7 +33,7 @@
                     lat = position.coords.latitude;
                     
                     const proxy = "https://cors-anywhere.herokuapp.com/";
-                    const api = '${proxy}https://api.darksky.net/forecast/406b975f02d2470e0ffb263d9d4a50af/${lat},${long}';
+                    const api = `${proxy}https://api.darksky.net/forecast/406b975f02d2470e0ffb263d9d4a50af/${lat},${long}`;
                     
                    fetch(api)
                         .then(response => {
